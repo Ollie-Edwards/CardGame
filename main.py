@@ -1,4 +1,4 @@
-from cards import Deck
+from cards import Deck, Card
 
 testDeck = Deck()
 

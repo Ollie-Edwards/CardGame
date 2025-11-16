@@ -2,6 +2,27 @@ class Card:
     def __init__(self, rank, suit):
         self.rank = rank
         self.suit = suit
+
+        if self.rank not in [
+            "A",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "J",
+            "Q",
+            "K",
+        ]:
+            raise Exception("Tried create card with unknown suit")
+
+        if self.suit not in ["H", "D", "C", "S"]:
+            raise Exception("Tried create card with unknown suit")
+
         self.value = self.get_value()
 
     def get_card_name(self):
@@ -21,10 +42,6 @@ class Card:
 
         elif self.rank.isdigit():
             return int(self.rank)
-
-        else:
-            print(self.rank)
-            raise Exception("Tried to find value of an unknown card")
 
 
 class Deck:
