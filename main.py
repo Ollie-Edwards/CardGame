@@ -1,6 +1,3 @@
-from itertools import zip_longest
-import random
-
 class Deck():
   def __init__(self):
     self.cards = [i for i in range(100)]
