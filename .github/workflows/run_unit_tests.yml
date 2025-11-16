@@ -28,25 +28,9 @@ jobs:
       - name: Run tests with coverage
         run: pytest --cov=cards --cov-report=term-missing --cov-report=html:htmlcov
 
-      # Ensure coverage folder exists
-      - name: Ensure coverage report exists
-        run: |
-          if [ ! -d "./htmlcov" ]; then
-            echo "Error: htmlcov folder not found!"
-            exit 1
-          fi
-
-      # Debug: List coverage files
-      - name: List coverage files
-        run: ls -R ./htmlcov
-
-      # Deploy coverage report via GitHub Actions
-      - name: Deploy coverage report via GitHub Actions
-        uses: peaceiris/actions-gh-pages@v4
+      # Upload coverage report as artifact
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./htmlcov # Relative to repo root
-          force_orphan: true # Create gh-pages branch if it doesn't exist
-          allow_empty_commit: true # Prevents failure if nothing changed
-          user_name: github-actions
-          user_email: github-actions@github.com
+          name: coverage-report
+          path: htmlcov/
