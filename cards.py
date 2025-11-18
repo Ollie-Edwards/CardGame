@@ -47,7 +47,6 @@ class Card:
 class Deck:
     def __init__(self):
         self.cards = []
-        self.reset()
 
     def draw_card(self) -> int:
         if self.cards == []:
@@ -71,8 +70,8 @@ class Deck:
     def is_empty(self) -> bool:
         return self.size() == 0
 
-    def add_card(self, cards: list[Card]) -> None:
-        self.cards.extend(cards)
+    def add_card(self, card: Card) -> None:
+        self.cards.append(card)
 
     def get_cards(self):
         return self.cards
