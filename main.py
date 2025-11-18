@@ -3,11 +3,10 @@ from shuffler import Shuffler
 from itertools import combinations
 
 gameDeck = Deck()
-gameDeck.reset()
 gameDeck.cards = Shuffler.fisher_yates_shuffle(gameDeck.cards)
 
 tableCards = Deck()
-
+tableCards.cards = []
 
 def getPossibleMoves(board):
     """

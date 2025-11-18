@@ -79,7 +79,7 @@ def test_add_single_card_to_top_of_deck():
 
     card = Card("A", "S")
 
-    deck.add_card([card])
+    deck.add_card(card)
     assert deck.size() == 53
     assert deck.draw_card() == card
 
@@ -89,7 +89,7 @@ def test_add_multiple_cards_to_top_of_deck():
 
     cards = [Card("A", "S"), Card("4", "C"), Card("10", "D"), Card("6", "H")]
 
-    deck.add_card(cards)
+    deck.add_cards(cards)
     assert deck.size() == 56
 
     assert deck.draw_card() == cards[-1]
