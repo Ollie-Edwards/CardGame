@@ -45,7 +45,7 @@ def getUserInput():
         try:
             move = [int(i) for i in move.replace(" ", "").split(",")]
 
-            if len(move) not in [2,3]:
+            if len(move) not in [2, 3]:
                 print("You must enter 2 or 3 indexes")
                 continue
 
@@ -61,6 +61,7 @@ def getUserInput():
         except:
             print("Invalid Move")
             continue
+
 
 while (
     tableCards.size() < 8 or getPossibleMoves(tableCards.cards) == []
