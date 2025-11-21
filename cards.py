@@ -43,6 +43,9 @@ class Card:
         elif self.rank.isdigit():
             return int(self.rank)
 
+    def get_image_filepath(self):
+        return f"CardImages/{self.rank}_of_{self.suit}.png"
+
 
 class Deck:
     def __init__(self):
