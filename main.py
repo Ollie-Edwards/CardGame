@@ -4,17 +4,6 @@ from itertools import combinations
 import pygame
 import time
 
-pygame.init()
-X = 600
-Y = 600
-
-screen = pygame.display.set_mode((X, Y))
-
-# set the pygame window name
-pygame.display.set_caption("image")
-font = pygame.font.SysFont(None, 60)
-fontsmall = pygame.font.SysFont(None, 30)
-
 CARD_WIDTH = 100
 CARD_HEIGHT = 146
 
@@ -26,7 +15,6 @@ gameDeck.cards = Shuffler.fisher_yates_shuffle(gameDeck.cards)
 
 tableCards = Deck()
 tableCards.cards = []
-
 
 def getPossibleMoves(board):
     """
@@ -59,6 +47,7 @@ def getPossibleMoves(board):
 
 def getUserInput():
     while True:
+        print("Please enter cards as comma seperated indexes, eg: 0,1 or 4,5,6")
         move = input("Enter Pair or Trio of cards: ")
 
         try:
@@ -155,81 +144,126 @@ playing = True
 endTimeRecorded = False
 startTime = time.time()
 
-while status:
-    screen.fill((255, 255, 255))  # Clear screen
+GUIoption = input("Would you like to play the game with the GUI (1) or CLI (2)?")
 
-    for event in pygame.event.get():
-        # Check if the 'h' key is pressed, if so show hint
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_h]:
-            hint = True
-        else:
-            hint = False
+if GUIoption == "1":
 
-        # Toggle card selection on click
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_x, mouse_y = event.pos
-            clicked_index = get_card_index_from_click(
-                mouse_x, mouse_y, total_cards=tableCards.size()
-            )
-            if clicked_index is not None:
+    pygame.init()
+    X = 600
+    Y = 600
 
-                # If selected then unselect it, if not selected then select it
-                if clicked_index in selected:
-                    selected.remove(clicked_index)
-                else:
-                    selected.append(clicked_index)
+    screen = pygame.display.set_mode((X, Y))
 
-                    # If a valid move is selected
-                    move = sorted(selected)
-                    if move in getPossibleMoves(tableCards.cards):
-                        tableCards.cards = [
-                            card
-                            for idx, card in enumerate(tableCards.cards)
-                            if idx not in move
-                        ]
+    # set the pygame window name
+    pygame.display.set_caption("image")
+    font = pygame.font.SysFont(None, 60)
+    fontsmall = pygame.font.SysFont(None, 30)
 
-                        if tableCards.size() == 0 and gameDeck.size() == 0:
-                            playing = False
+    while status:
+        screen.fill((255, 255, 255))  # Clear screen
 
-                        else:
-                            # Redraw cards back into hand
-                            while (
-                                tableCards.size() < 8
-                                or getPossibleMoves(tableCards.cards) == []
-                            ) and gameDeck.size() > 0:
-                                tableCards.add_card(gameDeck.draw_card())
+        for event in pygame.event.get():
+            # Check if the 'h' key is pressed, if so show hint
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_h]:
+                hint = True
+            else:
+                hint = False
 
-                        selected = []
+            # Toggle card selection on click
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                mouse_x, mouse_y = event.pos
+                clicked_index = get_card_index_from_click(
+                    mouse_x, mouse_y, total_cards=tableCards.size()
+                )
+                if clicked_index is not None:
 
-        if event.type == pygame.QUIT:
-            status = False
+                    # If selected then unselect it, if not selected then select it
+                    if clicked_index in selected:
+                        selected.remove(clicked_index)
+                    else:
+                        selected.append(clicked_index)
 
-    if playing == True:
-        draw_cards(tableCards.cards)
+                        # If a valid move is selected
+                        move = sorted(selected)
+                        if move in getPossibleMoves(tableCards.cards):
+                            tableCards.cards = [
+                                card
+                                for idx, card in enumerate(tableCards.cards)
+                                if idx not in move
+                            ]
 
-        for index in selected:
-            highlight_card_by_index(index, (0, 0, 255))
+                            if tableCards.size() == 0 and gameDeck.size() == 0:
+                                playing = False
 
-        if hint:
-            for index in getPossibleMoves(tableCards.cards)[0]:
-                highlight_card_by_index(index, (255, 100, 100))
+                            else:
+                                # Redraw cards back into hand
+                                while (
+                                    tableCards.size() < 8
+                                    or getPossibleMoves(tableCards.cards) == []
+                                ) and gameDeck.size() > 0:
+                                    tableCards.add_card(gameDeck.draw_card())
 
-        time_taken = time.time() - startTime
-        time_text = fontsmall.render(f"Time: {time_taken:.2f} seconds", True, (0, 0, 0))
-        screen.blit(time_text, (10, 575))
+                            selected = []
 
-    else:
-        if endTimeRecorded == False:
+            if event.type == pygame.QUIT:
+                status = False
+
+        if playing == True:
+            draw_cards(tableCards.cards)
+
+            for index in selected:
+                highlight_card_by_index(index, (0, 0, 255))
+
+            if hint:
+                for index in getPossibleMoves(tableCards.cards)[0]:
+                    highlight_card_by_index(index, (255, 100, 100))
+
             time_taken = time.time() - startTime
-            endTimeRecorded = True
+            time_text = fontsmall.render(f"Time: {time_taken:.2f} seconds", True, (0, 0, 0))
+            screen.blit(time_text, (10, 575))
 
-        win_text = font.render("YOU WIN!", True, (0, 0, 0))
-        time_text = font.render(f"Time: {time_taken:.2f} seconds", True, (0, 0, 0))
+        else:
+            if endTimeRecorded == False:
+                time_taken = time.time() - startTime
+                endTimeRecorded = True
 
-        screen.blit(win_text, (200, 150))
-        screen.blit(time_text, (120, 230))
+            win_text = font.render("YOU WIN!", True, (0, 0, 0))
+            time_text = font.render(f"Time: {time_taken:.2f} seconds", True, (0, 0, 0))
 
-    pygame.display.flip()
+            screen.blit(win_text, (200, 150))
+            screen.blit(time_text, (120, 230))
 
-pygame.quit()
+        pygame.display.flip()
+
+    pygame.quit()
+
+if GUIoption:
+    startTime = time.time()
+    playing = True
+    while playing:
+        # Debug: Display possible moves
+    
+        # Check for win or loss
+        if tableCards.cards == []:
+            print("You Win!")
+            print(f"Time: {time.time() - startTime:.2f} seconds")
+            playing = False
+            break
+
+        # Display cards on the table
+        for i, card in enumerate(tableCards.cards):
+            print(i, ": ", card.get_card_name())
+
+        move = getUserInput()
+
+        # Remove selected cards
+        tableCards.cards = [card for idx, card in enumerate(tableCards.cards) if idx not in move]
+
+        while (
+            tableCards.size() < 8 or getPossibleMoves(tableCards.cards) == []
+        ) and gameDeck.size() > 0:
+            tableCards.add_card(gameDeck.draw_card())
+
+else:
+    print("Invalid option")
