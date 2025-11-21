@@ -16,6 +16,7 @@ gameDeck.cards = Shuffler.fisher_yates_shuffle(gameDeck.cards)
 tableCards = Deck()
 tableCards.cards = []
 
+
 def getPossibleMoves(board):
     """
     A pair of cards whose values sum to 11
@@ -220,7 +221,9 @@ if GUIoption == "1":
                     highlight_card_by_index(index, (255, 100, 100))
 
             time_taken = time.time() - startTime
-            time_text = fontsmall.render(f"Time: {time_taken:.2f} seconds", True, (0, 0, 0))
+            time_text = fontsmall.render(
+                f"Time: {time_taken:.2f} seconds", True, (0, 0, 0)
+            )
             screen.blit(time_text, (10, 575))
 
         else:
@@ -243,7 +246,7 @@ if GUIoption:
     playing = True
     while playing:
         # Debug: Display possible moves
-    
+
         # Check for win or loss
         if tableCards.cards == []:
             print("You Win!")
@@ -258,7 +261,9 @@ if GUIoption:
         move = getUserInput()
 
         # Remove selected cards
-        tableCards.cards = [card for idx, card in enumerate(tableCards.cards) if idx not in move]
+        tableCards.cards = [
+            card for idx, card in enumerate(tableCards.cards) if idx not in move
+        ]
 
         while (
             tableCards.size() < 8 or getPossibleMoves(tableCards.cards) == []
