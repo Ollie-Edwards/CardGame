@@ -25,6 +25,8 @@
 
 ## Modeling the Deck of Cards
 
+I decided to split the representation of the deck of cards into two classes, Deck and Card. This allows me to clearly separate individual card behavior from deck management, making the code more modular and easier to maintain. I decided to do this because each card has its own properties and methods such as rank and suit while the deck is responsible for storing, shuffling, drawing, and adding cards. By separating these functionalities, the design follows good object-oriented principles, simplifies testing, and makes it easier to extend or modify the game logic in the future.
+
 I implemented both a class and deck class to model the standard deck of playing cards. The deck stores a list of class objects, while also having built in methods to populate the deck with the standard 52 card deck, it also facilitates drawing cards from the top of the deck, adding cards onto the deck, and checking the size of the deck or if the deck is empty.
 
 The card class represents a single card, it ensures every card has a valid rank and suit, the built in methods can be used to determine the value of the card according to the game rules, the name of the card, and also contains a function which gets the file path to where an image of the card can be located.
@@ -64,6 +66,14 @@ All core functionality including the Card and Deck classes are tested with `PyTe
 
 ---
 
+## Ideas for future development
+
+- Daily Challenge - A daily challenge where users across the world could compete to complete the puzzle in the shortest amount of time possible.
+
+- Online Multiplayer - This would allow multiple players to compete with the same shuffled deck timed challenges.
+
+- Acheivements / Milestones - Track milestones such as fastest game, to allow comparison between players
+
 ## Installation Instructions
 
 1. **Clone the repository:**  
@@ -87,3 +97,4 @@ pytest --cov=shuffler --cov-report=term-missing --cov-report=html:htmlcov
 ```bash
 python main.py
 ```
+
